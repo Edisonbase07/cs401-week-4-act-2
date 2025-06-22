@@ -23,12 +23,16 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $registrationDate = $this->faker->dateTimeBetween('-1 year', 'now');
+        
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'registration_date' => $registrationDate,
+            'last_login_date' => $this->faker->optional(0.7)->dateTimeBetween($registrationDate, 'now'),
         ];
     }
 
